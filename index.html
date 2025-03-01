@@ -129,7 +129,7 @@
             margin-top: 12px;
         }
         
-        /* Slideshow Styles */
+        /* Slideshow Styles - Fixed for PC */
         .slideshow-container {
             width: 90%;
             margin: 30px auto;
@@ -137,7 +137,17 @@
             border-radius: 10px;
             overflow: hidden;
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-            height: 400px;
+            height: 0;
+            padding-bottom: 50%; /* Aspect ratio for responsive height */
+            max-height: 600px; /* Maximum height on large screens */
+        }
+        
+        /* For larger screens, use fixed height */
+        @media (min-width: 1200px) {
+            .slideshow-container {
+                height: 500px;
+                padding-bottom: 0;
+            }
         }
         
         .slide {
@@ -206,6 +216,10 @@
                 margin-left: 0;
                 width: 100%;
             }
+            
+            .slideshow-container {
+                padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            }
         }
         
         @media (max-width: 768px) {
@@ -228,7 +242,7 @@
             }
             
             .slideshow-container {
-                height: 300px;
+                padding-bottom: 66.67%; /* 3:2 aspect ratio */
             }
             
             .header-title {
@@ -276,7 +290,7 @@
             }
             
             .slideshow-container {
-                height: 200px;
+                padding-bottom: 75%; /* 4:3 aspect ratio for small screens */
             }
             
             .audio-control {

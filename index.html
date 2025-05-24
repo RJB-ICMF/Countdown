@@ -521,10 +521,58 @@
                 right: 15px;
             }
         }
+                .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 1s ease-out;
+        }
+
+        .preloader.fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .preloader-logo {
+            width: 150px;
+            height: auto;
+            animation: pulse 2s infinite;
+        }
+
+        .preloader-text {
+            margin-top: 20px;
+            font-family: Arial, sans-serif;
+            font-size: 18px;
+            color: #333;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
     </style>
 </head>
 
 <body>
+    <!-- Preloader -->
+    <div class="preloader" id="preloader">
+        <img src="Assets/interchurches.png" alt="ICMF Logo" class="preloader-logo">
+    </div>
     <!-- Audio Element with all possible autoplay attributes -->
     <audio id="background-audio" autoplay muted preload="auto">
         <source src="Assets/background.mp3" type="audio/mp3">
@@ -592,69 +640,70 @@
         </div>
     </div>
 
-    <script>
-        // Set the countdown date (May 30, 2025)
-        const countdownDate = new Date('May 30, 2025 00:00:00').getTime();
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    // Preloader functionality
+    const preloader = document.getElementById("preloader");
+    
+    if (preloader) {
+        setTimeout(function() {
+            hidePreloader();
+        }, 3000);
+        
+        function hidePreloader() {
+            preloader.classList.add("fade-out");
+            setTimeout(function() {
+                preloader.style.display = "none";
+            }, 1000);
+        }
+    }
 
-        // Audio element
-        const audio = document.getElementById('background-audio');
-        const audioControl = document.getElementById('audio-control');
-        const audioIcon = document.getElementById('audio-icon');
-        let audioPlaying = false;
+    // Set the countdown date (May 30, 2025)
+    const countdownDate = new Date('May 30, 2025 00:00:00').getTime();
 
-        // Audio control functionality
+    // Audio element and controls
+    const audio = document.getElementById('background-audio');
+    const audioControl = document.getElementById('audio-control');
+    const audioIcon = document.getElementById('audio-icon');
+    let audioPlaying = false;
+
+    // Audio control functionality
+    if (audioControl && audio && audioIcon) {
         audioControl.addEventListener('click', function () {
             if (audioPlaying) {
                 audio.pause();
                 audioIcon.className = 'fas fa-volume-mute';
+                audioPlaying = false;
             } else {
                 audio.play()
                     .then(() => {
                         audio.muted = false;
+                        audioIcon.className = 'fas fa-volume-up';
+                        audioPlaying = true;
                     })
                     .catch(error => {
                         console.log("Play failed:", error);
                     });
-                audioIcon.className = 'fas fa-volume-up';
             }
-            audioPlaying = !audioPlaying;
         });
 
-        // Force play on page load and unmute the audio
-        window.onload = function () {
-            // Try to automatically play on page load
-            audio.play()
-                .then(() => {
-                    // Successfully started playing
-                    setTimeout(() => {
-                        // Unmute after a very short delay
-                        audio.muted = false;
-                        audioPlaying = true;
-                        audioIcon.className = 'fas fa-volume-up';
-                    }, 10);
-                })
-                .catch(error => {
-                    console.log("Initial autoplay failed:", error);
-                    // Keep the mute icon as is
-                });
+        // Audio event listeners
+        audio.addEventListener('play', function() {
+            audioPlaying = true;
+            audioIcon.className = 'fas fa-volume-up';
+        });
 
-            // As a backup, try to play on any user interaction
-            document.body.addEventListener('click', function () {
-                if (audio.paused && !audioPlaying) {
-                    audio.muted = false;
-                    audio.play()
-                        .then(() => {
-                            audioPlaying = true;
-                            audioIcon.className = 'fas fa-volume-up';
-                        });
-                }
-            }, { once: true });
-        };
+        audio.addEventListener('pause', function() {
+            audioPlaying = false;
+            audioIcon.className = 'fas fa-volume-mute';
+        });
+    }
 
-        // Slideshow functionality
-        const slides = document.querySelectorAll('.slide');
-        let currentSlide = 0;
+    // Slideshow functionality
+    const slides = document.querySelectorAll('.slide');
+    let currentSlide = 0;
 
+    if (slides.length > 0) {
         function showSlide(index) {
             // Remove active class from all slides
             slides.forEach(slide => {
@@ -675,7 +724,16 @@
 
         // Change slide every 5 seconds
         setInterval(nextSlide, 5000);
+    }
 
+    // Countdown timer functionality
+    const headerDays = document.getElementById('header-days');
+    const headerHours = document.getElementById('header-hours');
+    const headerMinutes = document.getElementById('header-minutes');
+    const headerSeconds = document.getElementById('header-seconds');
+    const headerCountdown = document.getElementById('header-countdown');
+
+    if (headerDays && headerHours && headerMinutes && headerSeconds) {
         // Update countdown every second
         const countdownTimer = setInterval(function () {
             // Get today's date and time
@@ -691,18 +749,59 @@
             const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
             // Display the result in the header countdown
-            document.getElementById('header-days').textContent = days.toString().padStart(2, '0');
-            document.getElementById('header-hours').textContent = hours.toString().padStart(2, '0');
-            document.getElementById('header-minutes').textContent = minutes.toString().padStart(2, '0');
-            document.getElementById('header-seconds').textContent = seconds.toString().padStart(2, '0');
+            headerDays.textContent = days.toString().padStart(2, '0');
+            headerHours.textContent = hours.toString().padStart(2, '0');
+            headerMinutes.textContent = minutes.toString().padStart(2, '0');
+            headerSeconds.textContent = seconds.toString().padStart(2, '0');
 
             // If the countdown is finished, display message
             if (distance < 0) {
                 clearInterval(countdownTimer);
-                document.getElementById('header-countdown').innerHTML = '<h3 style="margin: 0; color: #fff;">The date has arrived!</h3>';
+                if (headerCountdown) {
+                    headerCountdown.innerHTML = '<h3 style="margin: 0; color: #fff;">The date has arrived!</h3>';
+                }
             }
         }, 1000);
-    </script>
+    }
+});
+
+// Handle audio autoplay after page load
+window.addEventListener('load', function () {
+    const audio = document.getElementById('background-audio');
+    const audioIcon = document.getElementById('audio-icon');
+    
+    if (audio && audioIcon) {
+        // Try to automatically play on page load
+        audio.play()
+            .then(() => {
+                // Successfully started playing
+                setTimeout(() => {
+                    // Unmute after a very short delay
+                    audio.muted = false;
+                    audioIcon.className = 'fas fa-volume-up';
+                }, 10);
+            })
+            .catch(error => {
+                console.log("Initial autoplay failed:", error);
+                // Keep the mute icon as is
+            });
+
+        // As a backup, try to play on any user interaction
+        document.body.addEventListener('click', function () {
+            if (audio.paused) {
+                audio.muted = false;
+                audio.play()
+                    .then(() => {
+                        audioIcon.className = 'fas fa-volume-up';
+                    })
+                    .catch(error => {
+                        console.log("Click-triggered play failed:", error);
+                    });
+            }
+        }, { once: true });
+    }
+});
+</script>
 </body>
 
 </html>

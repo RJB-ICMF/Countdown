@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ICMF 2025 Workshop Countdown</title>
     <link rel="icon" href="Assets/interchurches.png" type="image/png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         body {
             margin: 0;
@@ -14,20 +13,15 @@
             font-family: Arial, sans-serif;
             background-color: #f5f5ff;
             color: #333;
-            overflow-x: hidden;
-            /* Prevent horizontal scroll */
         }
 
         .header {
             background: linear-gradient(to right, #7b5bb5, #65a69f, #8bc34a);
             color: white;
-            padding: 15px;
+            padding: 20px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            flex-wrap: wrap;
-            width: 100%;
-            box-sizing: border-box;
         }
 
         .header-left {
@@ -36,10 +30,9 @@
         }
 
         .logo {
-            width: 80px;
-            height: 80px;
-            margin-right: 15px;
-            object-fit: contain;
+            width: 100px;
+            height: 100px;
+            margin-right: 20px;
         }
 
         .header-text {
@@ -123,35 +116,23 @@
             color: #333;
             margin-bottom: 10px;
         }
-
-        .text {
-            font-size: 18px !important;
-            font-weight: bold;
-            color: rgba(123, 91, 181, 1) !important;
-            margin-top: 12px;
+        
+        .quote-source {
+            text-align: right;
+            color: #7b5bb5;
+            font-style: italic;
+            font-size: 18px;
         }
-
-        /* Slideshow Styles - Fixed for PC */
+        
+        /* Slideshow Styles */
         .slideshow-container {
             width: 90%;
             margin: 30px auto;
             position: relative;
             border-radius: 10px;
             overflow: hidden;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-            height: 0;
-            padding-bottom: 50%;
-            /* Aspect ratio for responsive height */
-            max-height: 600px;
-            /* Maximum height on large screens */
-        }
-
-        /* For larger screens, use fixed height */
-        @media (min-width: 1200px) {
-            .slideshow-container {
-                height: 500px;
-                padding-bottom: 0;
-            }
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            height: 500px;
         }
 
         .slide {
@@ -170,46 +151,7 @@
         .slide.active {
             opacity: 1;
         }
-
-        /* Audio control button */
-        .audio-control {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: rgba(123, 91, 181, 0.8);
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-            z-index: 1000;
-            color: white;
-            font-size: 20px;
-            transition: all 0.3s ease;
-        }
-
-        .audio-control:hover {
-            background-color: rgba(123, 91, 181, 1);
-        }
-
-        /* Safe area padding for modern mobile devices */
-        @supports(padding: max(0px)) {
-            body {
-                padding-left: max(0px, env(safe-area-inset-left));
-                padding-right: max(0px, env(safe-area-inset-right));
-                padding-top: max(0px, env(safe-area-inset-top));
-                padding-bottom: max(0px, env(safe-area-inset-bottom));
-            }
-
-            .audio-control {
-                bottom: max(20px, env(safe-area-inset-bottom) + 10px);
-                right: max(20px, env(safe-area-inset-right) + 10px);
-            }
-        }
-
+        
         @media (max-width: 1024px) {
             .header {
                 justify-content: center;
@@ -219,11 +161,7 @@
                 margin-top: 15px;
                 margin-left: 0;
                 width: 100%;
-            }
-
-            .slideshow-container {
-                padding-bottom: 56.25%;
-                /* 16:9 aspect ratio */
+                justify-content: center;
             }
         }
 
@@ -247,24 +185,11 @@
             }
 
             .slideshow-container {
-                padding-bottom: 66.67%;
-                /* 3:2 aspect ratio */
-            }
-
-            .header-title {
-                font-size: 20px;
-            }
-
-            .header-subtitle {
-                font-size: 15px;
+                height: 300px;
             }
         }
 
         @media (max-width: 480px) {
-            .header {
-                padding: 10px;
-            }
-
             .header-countdown-number {
                 font-size: 1.1rem;
                 min-width: 22px;
@@ -276,38 +201,15 @@
             }
 
             .header-title {
-                font-size: 18px;
-            }
-
-            .header-subtitle {
-                font-size: 14px;
-            }
-
-            .theme {
                 font-size: 20px;
             }
-
-            .quote-text {
-                font-size: 14px;
-            }
-
-            .text {
-                font-size: 16px !important;
-            }
-
-            .slideshow-container {
-                padding-bottom: 75%;
-                /* 4:3 aspect ratio for small screens */
-            }
-
-            .audio-control {
-                width: 40px;
-                height: 40px;
+            
+            .header-subtitle {
                 font-size: 16px;
             }
 
-            .quote-box {
-                padding: 12px;
+            .slideshow-container {
+                height: 200px;
             }
         }
     </style>
@@ -315,22 +217,17 @@
 
 <body>
     <!-- Audio Element with all possible autoplay attributes -->
-    <audio id="background-audio" autoplay muted preload="auto">
+    <audio id="background-audio" autoplay muted preload="auto" >
         <source src="Assets/background.mp4" type="audio/mp4">
         Your browser does not support the audio element.
     </audio>
-
-    <!-- Audio control button -->
-    <div class="audio-control" id="audio-control">
-        <i class="fas fa-volume-mute" id="audio-icon"></i>
-    </div>
-
+    
     <div class="header">
         <div class="header-left">
             <img src="Assets/interchurches.png" alt="Inter Churches Logo" class="logo">
             <div class="header-text">
-                <div class="header-title">INTER CHURCHES MUSIC FESTIVAL</div>
-                <div class="header-subtitle">2025 FESTIVAL COMPETITIONS</div>
+                <div class="header-title">INTER CHURCHES MUSIC FESTIVAL </div>
+                <div class="header-subtitle">2025 WORKSHOP</div>
             </div>
         </div>
 
@@ -360,21 +257,18 @@
 
         <div class="quote-box">
             <div class="quote-text">
-                "Bringing together voices from across the nation, join us for the ICMF 2025 at ACK St. Paul’s Church,
-                Athi River on May 30th & 31st
-                starting at 2:00pm on Friday and at 7:00am on Saturday. Come experience spirit-filled praise, unity in
-                worship, and the glory of God through music."
+                "At ACK St. Paul's Church Athi River from 6:00 am. Let's keep time. "
             </div>
-            <div class="text">Evangelizing Through Music</div>
+            <div class="text" style="font-size: 20px; font-weight: bold; color:  rgba(123, 91, 181, 1);; margin-top: 15px;">See You There!</div>
         </div>
 
         <!-- Slideshow -->
         <div class="slideshow-container">
-            <div class="slide" style="background-image: url('Assets/5.JPG');"></div>
-            <div class="slide" style="background-image: url('Assets/4.JPG');"></div>
-            <div class="slide" style="background-image: url('Assets/3.JPG');"></div>
-            <div class="slide" style="background-image: url('Assets/2.JPG');"></div>
-            <div class="slide" style="background-image: url('Assets/1.JPG');"></div>
+            <div class="slide" style="background-image: url('Assets/Pic5.jpg');"></div>
+            <div class="slide" style="background-image: url('Assets//Pic4.jpg');"></div>
+            <div class="slide" style="background-image: url('Assets/Pic3.jpg');"></div>
+            <div class="slide" style="background-image: url('Assets/Pic2.jpg');"></div>
+            <div class="slide" style="background-image: url('Assets/Pic1.jpg');"></div>
         </div>
     </div>
 
@@ -384,31 +278,10 @@
 
         // Audio element
         const audio = document.getElementById('background-audio');
-        const audioControl = document.getElementById('audio-control');
-        const audioIcon = document.getElementById('audio-icon');
-        let audioPlaying = false;
-
-        // Audio control functionality
-        audioControl.addEventListener('click', function () {
-            if (audioPlaying) {
-                audio.pause();
-                audioIcon.className = 'fas fa-volume-mute';
-            } else {
-                audio.play()
-                    .then(() => {
-                        audio.muted = false;
-                    })
-                    .catch(error => {
-                        console.log("Play failed:", error);
-                    });
-                audioIcon.className = 'fas fa-volume-up';
-            }
-            audioPlaying = !audioPlaying;
-        });
-
+        
         // Force play on page load and unmute the audio
-        window.onload = function () {
-            // Try to automatically play on page load
+        window.onload = function() {
+            // Start with muted (which browsers allow) then unmute
             audio.play()
                 .then(() => {
                     // Successfully started playing
@@ -425,8 +298,24 @@
                 });
 
             // As a backup, try to play on any user interaction
-            document.body.addEventListener('click', function () {
-                if (audio.paused && !audioPlaying) {
+            document.body.addEventListener('click', function() {
+                if (audio.paused) {
+                    audio.muted = false;
+                    audio.play();
+                }
+            }, { once: true });
+            
+            // Alternative approach: play on user scroll
+            document.addEventListener('scroll', function() {
+                if (audio.paused) {
+                    audio.muted = false;
+                    audio.play();
+                }
+            }, { once: true });
+            
+            // Try to play every second until successful
+            let playAttempt = setInterval(() => {
+                if (audio.paused) {
                     audio.muted = false;
                     audio.play()
                         .then(() => {
